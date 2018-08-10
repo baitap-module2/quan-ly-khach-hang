@@ -30,9 +30,26 @@ public class CustomerServlet extends HttpServlet {
                 updateCustomer(request, response);
                 break;
             case "delete":
+                deleteCustomer(request, response);
                 break;
             default:
                 break;
+        }
+    }
+
+    private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Customer customer = this.customerService.findById(id);
+        RequestDispatcher dispatcher;
+        if(customer == null){
+            dispatcher = request.getRequestDispatcher("error-404.jsp");
+        } else {
+            this.customerService.remove(id);
+            try {
+                response.sendRedirect("/customers");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -95,7 +112,7 @@ public class CustomerServlet extends HttpServlet {
                 showEditForm(request, response);
                 break;
             case "delete":
-                showDeleteForm(request, response):
+                showDeleteForm(request, response);
                 break;
             case "view":
                 break;
