@@ -27,11 +27,39 @@ public class CustomerServlet extends HttpServlet {
                 createCustomer(request, response);
                 break;
             case "edit":
+                updateCustomer(request, response);
                 break;
             case "delete":
                 break;
             default:
                 break;
+        }
+    }
+
+    private void updateCustomer(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String address = request.getParameter("address");
+        Customer customer = this.customerService.findById(id);
+        RequestDispatcher dispatcher;
+        if(customer == null){
+            dispatcher = request.getRequestDispatcher("error-404.jsp");
+        } else {
+            customer.setName(name);
+            customer.setEmail(email);
+            customer.setAddress(address);
+            this.customerService.update(id, customer);
+            request.setAttribute("customer", customer);
+            request.setAttribute("message", "Customer information was updated");
+            dispatcher = request.getRequestDispatcher("customer/edit.jsp");
+        }
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
