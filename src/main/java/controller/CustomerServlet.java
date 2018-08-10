@@ -41,6 +41,7 @@ public class CustomerServlet extends HttpServlet {
         }
         switch (action){
             case "create":
+                showCreateForm(request, response);
                 break;
             case "edit":
                 break;
@@ -51,6 +52,17 @@ public class CustomerServlet extends HttpServlet {
             default:
                 listCustomers(request, response);
                 break;
+        }
+    }
+
+    private void showCreateForm(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/create.jsp");
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
