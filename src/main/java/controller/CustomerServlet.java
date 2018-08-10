@@ -115,7 +115,7 @@ public class CustomerServlet extends HttpServlet {
                 showDeleteForm(request, response);
                 break;
             case "view":
-                viewCustomer(request, response)
+                viewCustomer(request, response);
                 break;
             default:
                 listCustomers(request, response);
